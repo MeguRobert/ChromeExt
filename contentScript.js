@@ -1,5 +1,5 @@
 (() => {
-    let youtubeLeftControls;
+    let youtubeLeftControls, youtubePlayer;
 
     const newVideoLoaded = () => {
         const downloadBtnExists = document.getElementsByClassName("download-btn")[0];
@@ -12,8 +12,7 @@
             downloadBtn.title = "Click to download current video in mp3 format";
 
             youtubeLeftControls = document.getElementsByClassName("ytp-left-controls")[0];
-            const downloadButtonQuery = '#flexible - item - buttons > ytd - download - button - renderer > ytd - button - renderer > yt - button - shape > button'
-
+            youtubePlayer = document.getElementsByClassName("video-stream")[0];
 
             youtubeLeftControls.append(downloadBtn);
             downloadBtn.addEventListener("click", () => {
@@ -21,7 +20,7 @@
                 chrome.runtime.sendMessage({type: "download"});
             });
         }
-    }
+    };
 
     newVideoLoaded();
 })();

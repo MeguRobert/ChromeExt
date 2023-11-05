@@ -31,36 +31,29 @@ async function download(tab) {
 
                     // Wait for the download button to appear
                     const query = 'body > form > div:nth-child(2) > a:nth-child(1)'
-                    waitForElement(query, 20000, () => {
-                        // Get the element with the specific selector
-                        let downloadButton = document.querySelector(query);
+                    let attempt = 0
 
+
+                    const repeat = () => {
+                        let downloadButton = document.querySelector(query);
+                        attempt++;
+                        setTimeout(() => {console.log(`Attempt ${attempt}`)}, 500);
                         // Check if the downloadButton is found
                         if (downloadButton) {
                             console.log("downloadButton found:", downloadButton);
+                            clearInterval(myInterval);
                             downloadButton.click();
                         } else {
                             console.error("downloadButton not found");
                         }
-                    });
+                    }
+
+                    const myInterval = setInterval(repeat, 500);
+
                 } else {
                     console.error("Form not found");
                 }
             }
         });
     });
-}
-
-// Recursive function to wait for the element to appear
-function waitForElement(selector, timeout, callback) {
-    const element = document.querySelector(selector);
-    if (element) {
-        callback();
-    } else if (timeout > 0) {
-        setTimeout(() => {
-            waitForElement(selector, timeout - 100, callback);
-        }, 100);
-    } else {
-        console.error("Timed out waiting for the element");
-    }
 }
